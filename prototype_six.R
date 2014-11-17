@@ -50,7 +50,7 @@ depy <- as.factor(training$Survived)
 
 model_ada <- train(x=indy,
                    y=depy, 
-                  method='ada',
+                  method='bagFDA',
                   #preProcess=nukem,
                   #type='Classification',
                   trControl=ctrl,

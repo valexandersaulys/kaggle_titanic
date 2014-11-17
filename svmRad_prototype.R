@@ -15,6 +15,8 @@ set$Title <- factor(set$Title)
 # Create a Family Size Variable
 set$FamilySize <- set$SibSp + set$Parch + 1
 
+# Make Male and female 
+
 # Clear Useless Variables
 set$Ticket <- NULL
 set$Cabin <- NULL #thinking the incomplete natre of cabin can be handled by h2o
@@ -39,24 +41,20 @@ ctrl <- trainControl(
   classProbs = TRUE  ) 
 
 TG <- data.frame(
-  iter=500,
-  maxdepth=30,
-  nu=0.01  )
-
-nukem <- 'BoxCox'
+  sigma=0.00224)
 
 indy <- training[!names(training) %in% c('Survived')]
 depy <- as.factor(training$Survived)
 
-model_ada <- train(x=indy,
+model_svmRad <- train(x=indy,
                    y=depy, 
-                  method='ada',
-                  #preProcess=nukem,
-                  #type='Classification',
-                  trControl=ctrl,
-                  tuneGrid=TG,
-                  tuneLength=3)
-model_ada
+                   method='lssvmRadial',
+                   #preProcess=NULL,
+                   #type='Classification',
+                   trControl=ctrl,
+                   tuneGrid=TG,
+                   tuneLength=3)
+model_svmRad
 
 predictions <- predict(model_ada,validation)
 confusionMatrix(predictions, validation$Survived)

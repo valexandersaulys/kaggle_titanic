@@ -34,7 +34,7 @@ testing$Embarked <- NULL
 predictions <- predict(modelFinal, testing)
 submit <- data.frame(PassengerId=testing$PassengerId, Survived=predictions)
 
-write.csv(submit, file = "submittion_111614_uno.csv", row.names = FALSE)
+write.csv(submit, file = "submittion_111614_dos.csv", row.names = FALSE)
 
 #=========================Close up H2o
 h2o.shutdown(localH2O)
