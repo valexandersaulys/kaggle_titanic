@@ -34,30 +34,31 @@ validation <- set[-dataPart,]
 ctrl <- trainControl(
   method = "repeatedcv",
   number=10,
-  repeats=5,
+  repeats=1,
   returnResamp = "all",
   classProbs = TRUE  ) 
 
 TG <- data.frame(
-  degree=3,
-  nprune=7)
+  n.trees=50,  # default of 100
+  interaction.depth=2,  # default of 3
+  shrinkage=0.1)  #default of 0.1
 
 nukem <- 'BoxCox'
 
 indy <- training[!names(training) %in% c('Survived')]
 depy <- as.factor(training$Survived)
 
-model_bagFDA <- train(x=indy,
+model_gbm <- train(x=indy,
                    y=depy, 
-                  method='gbm',
+                  method='rpart',
                   #preProcess=nukem,
                   #type='Classification',
                   trControl=ctrl,
                   #tuneGrid=TG,
                   tuneLength=3)
-model_bagFDA
+model_gbm
 
-predictions <- predict(model_bagFDA,validation)
+predictions <- predict(model_gbm,validation)
 confusionMatrix(predictions, validation$Survived)
 
 # ========================Submitting Stuff
