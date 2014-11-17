@@ -1,0 +1,16 @@
+{
+    "contents" : "rm(list = ls())\nlibrary(caret)\nlibrary(h2o)\nset.seed(2565186)\nset <- read.csv('train.csv')\nbackup <- set\n\n# Setup h2o\nlocalH2O  <- h2o.init(max_mem_size='6g')\n\n# Prepping Ze Data\n# First separates titles from names and then removes the name variables\nset$Name <- as.character(set$Name)\nset$Title <- sapply(set$Name, FUN=function(x) {strsplit(x, split='[,.]')[[1]][2]})\nset$Title <- sub(' ', '', set$Title)\nset$Title <- factor(set$Title)\n\n# Clear Useless Variables \nset$Ticket <- NULL\nset$Cabin <- NULL\nset$Name <- NULL\n\ndataPart <- createDataPartition(set$Survived,p=0.7, list=FALSE)\ntraining <- set[dataPart,]\nvalidation <- set[-dataPart,]\n\ntrain.h2o <- as.h2o(localH2O, training, key='train.hex')\nvalid.h2o <- as.h2o(localH2O, validation, key='valid.hex')\n\nindy=colnames(training[,1])\ndepy=colnames(training[,2:10])\n\nmodel.rf <- h2o.randomForest(x=indy,y=depy\n                               data=train.h2o,\n                             classification=TRUE,\n                             depth=20, ntree=50,\n                             validation=valid.h2o)\n\n\n# ========================Submitting Stuff\n\n\n#=========================Close up H2o\nh2o.shutdown(localH2O)\nlocalH2O = h2o.init(nthreads = -1)",
+    "created" : 1415830057362.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1025595933",
+    "id" : "558DA4B2",
+    "lastKnownWriteTime" : 1415830573,
+    "path" : "~/R/Kaggle Projects/Titanic/prototype_two.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

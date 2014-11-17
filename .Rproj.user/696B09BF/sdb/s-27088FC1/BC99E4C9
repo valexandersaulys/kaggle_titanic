@@ -1,0 +1,21 @@
+{
+    "contents" : "",
+    "created" : 1415825379515.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "BC99E4C9",
+    "lastKnownWriteTime" : 0,
+    "path" : null,
+    "properties" : {
+        "caption" : "predictions",
+        "contentUrl" : "content?title=predictions&file=44a257384b174b9ea09b11f1e07b5c71.htm",
+        "displayedObservations" : 267,
+        "displayedVariables" : 2,
+        "totalObservations" : 267,
+        "variables" : 1
+    },
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}

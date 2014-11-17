@@ -1,0 +1,17 @@
+{
+    "contents" : "rm(list = ls())\nlibrary(caret)\nlibrary(h2o)\nset.seed(45684812)\ntesting <- read.csv('test.csv')\n\n# Setup h2o\n#localH2O  <- h2o.init(max_mem_size='6g')\n\n# Prepping Ze Data\n# First separates titles from names and then removes the name variables\ntesting$Name <- as.character(testing$Name)\ntesting$Title <- sapply(testing$Name, FUN=function(x) {strsplit(x, split='[,.]')[[1]][2]})\ntesting$Title <- sub(' ', '', testing$Title)\ntesting$Title <- factor(testing$Title)\n\ntesting$FamilySize <- testing$SibSp + testing$Parch + 1\n\n# Clear Useless Variables\ntesting$Ticket <- NULL\ntesting$Cabin <- NULL #thinking the incomplete natre of cabin can be handled by h2o\ntesting$Name <- NULL\ntesting$SibSp <- NULL\ntesting$Parch <- NULL\ntesting$Embarked <- NULL\n\n#test.h2o <- as.h2o(localH2O, testing, key='test.hex')\n\n# ========================Submitting Stuff\n#predictions <- as.data.frame(h2o.predict(modelFinal,newdata=test.h2o))\n#submit <- data.frame(PassengerId=as.data.frame(test.h2o)$PassengerId,\n #                    Survived = predictions$predict)\n\npredictions <- predict(modelFinal, testing)\nsubmit <- data.frame(PassengerId=testing$PassengerId, Survived=predictions)\n\nwrite.csv(submit, file = \"submittion_111614_uno.csv\", row.names = FALSE)\n\n#=========================Close up H2o\nh2o.shutdown(localH2O)\nlocalH2O = h2o.init(nthreads = -1)\n",
+    "created" : 1416002089135.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2484074776",
+    "id" : "B022D488",
+    "lastKnownWriteTime" : 1416183363,
+    "path" : "~/Documents/workspace/R/Kaggle_Projects/Titanic/submitting_script.R",
+    "project_path" : "submitting_script.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

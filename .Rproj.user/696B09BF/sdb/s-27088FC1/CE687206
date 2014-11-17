@@ -1,0 +1,21 @@
+{
+    "contents" : "",
+    "created" : 1415825052911.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "CE687206",
+    "lastKnownWriteTime" : 174989528,
+    "path" : null,
+    "properties" : {
+        "caption" : "pred1",
+        "contentUrl" : "content?title=pred1&file=5e10613b576b49c39fc4e913f8785f97.htm",
+        "displayedObservations" : 267,
+        "displayedVariables" : 3,
+        "totalObservations" : 267,
+        "variables" : 2
+    },
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}

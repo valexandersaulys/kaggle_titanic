@@ -1,0 +1,21 @@
+{
+    "contents" : "",
+    "created" : 1415825077667.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "33DF3BA",
+    "lastKnownWriteTime" : 0,
+    "path" : null,
+    "properties" : {
+        "caption" : "validation",
+        "contentUrl" : "content?title=validation&file=2be3065c743f4e06bcf01b6e0e5f2d41.htm",
+        "displayedObservations" : "534",
+        "displayedVariables" : 14,
+        "totalObservations" : "534",
+        "variables" : "13"
+    },
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}

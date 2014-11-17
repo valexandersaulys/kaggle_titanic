@@ -1,0 +1,16 @@
+{
+    "contents" : "rm(list = ls())\nlibrary(caret)\nlibrary(rpart)\nset.seed(2565186)\nset <- read.csv('train.csv')\nbackup <- set\n\n\n# Prepping Ze Data\n# First separates titles from names and then removes the name variables\nset$Name <- as.character(set$Name)\nset$Title <- sapply(set$Name, FUN=function(x) {strsplit(x, split='[,.]')[[1]][2]})\nset$Title <- sub(' ', '', set$Title)\nset$Title <- factor(set$Title)\n\n# Clear Useless Variables \nset$Ticket <- NULL\nset$Cabin <- NULL\nset$Name <- NULL\n\ndataPart <- createDataPartition(set$Survived,p=0.7, list=FALSE)\ntraining <- set[dataPart,]\nvalidation <- set[-dataPart,]\n\nformula <- as.formula(Survived ~ .)\n\nmodelFit_rpart<- rpart(formula,\n                        data=training,\n                        method='class')\n\npredictions <- predict(modelFit_rpart,validation,type='class')\nvalidation$pred1 <- predictions\nconfusionMatrix(validation$pred1,validation$Survived)\n\n\n# ========================Submitting Stuff\nPrediction <- predict(fit, test, type = \"class\")\nsubmit <- data.frame(PassengerId = test$PassengerId, Survived = Prediction)\nwrite.csv(submit, file = \"myfirstdtree.csv\", row.names = FALSE)\n",
+    "created" : 1415827199460.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4180660156",
+    "id" : "AFC0C98B",
+    "lastKnownWriteTime" : 1415830071,
+    "path" : "~/R/Kaggle Projects/Titanic/prototype_one.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

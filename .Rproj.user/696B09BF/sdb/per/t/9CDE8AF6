@@ -1,0 +1,21 @@
+{
+    "contents" : "",
+    "created" : 1415829912494.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "9CDE8AF6",
+    "lastKnownWriteTime" : 0,
+    "path" : null,
+    "properties" : {
+        "caption" : "set",
+        "contentUrl" : "content?title=set&file=a04c8a08fd47444d9eaab7d0441bacc5.htm",
+        "displayedObservations" : 891,
+        "displayedVariables" : 10,
+        "totalObservations" : 891,
+        "variables" : 10
+    },
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}
