@@ -39,26 +39,25 @@ ctrl <- trainControl(
   classProbs = TRUE  ) 
 
 TG <- data.frame(
-  iter=500,
-  maxdepth=30,
-  nu=0.01  )
+  degree=3,
+  nprune=7)
 
 nukem <- 'BoxCox'
 
 indy <- training[!names(training) %in% c('Survived')]
 depy <- as.factor(training$Survived)
 
-model_ada <- train(x=indy,
+model_bagFDA <- train(x=indy,
                    y=depy, 
-                  method='bagFDA',
+                  method='gbm',
                   #preProcess=nukem,
                   #type='Classification',
                   trControl=ctrl,
-                  tuneGrid=TG,
+                  #tuneGrid=TG,
                   tuneLength=3)
-model_ada
+model_bagFDA
 
-predictions <- predict(model_ada,validation)
+predictions <- predict(model_bagFDA,validation)
 confusionMatrix(predictions, validation$Survived)
 
 # ========================Submitting Stuff

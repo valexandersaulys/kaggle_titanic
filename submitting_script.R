@@ -24,6 +24,9 @@ testing$SibSp <- NULL
 testing$Parch <- NULL
 testing$Embarked <- NULL
 
+testing[is.na(testing$Age),]$Age <- 0
+testing[is.na(testing$Fare),]$Fare <- 0
+
 #test.h2o <- as.h2o(localH2O, testing, key='test.hex')
 
 # ========================Submitting Stuff
@@ -32,9 +35,9 @@ testing$Embarked <- NULL
  #                    Survived = predictions$predict)
 
 predictions <- predict(modelFinal, testing)
-submit <- data.frame(PassengerId=testing$PassengerId, Survived=predictions)
+submit <- data.frame(PassengerId=testing$PassengerId, Survived=round(predictions,digit=0))
 
-write.csv(submit, file = "submittion_111614_dos.csv", row.names = FALSE)
+write.csv(submit, file = "submittion_111714_unos.csv", row.names = FALSE)
 
 #=========================Close up H2o
 h2o.shutdown(localH2O)
