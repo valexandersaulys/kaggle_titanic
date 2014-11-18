@@ -4,10 +4,11 @@ library(caret)
 training[is.na(training$Age),]$Age <- 0
 
 ggplot(data=set, 
-       aes(Fare, Survived)
+       aes(Fare*Pclass,Age)
        ) + 
   geom_point(
-    aes(colour=factor(set$Survived))
+    aes(colour=factor(set$Survived)),
+    position = position_jitter(w = 0.1, h = 0.1)
   )
 
 
