@@ -12,6 +12,7 @@ from sklearn.ensemble import AdaBoostClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import accuracy_score
+from sklearn.cross_validation import cross_val_score
 import numpy
 import pandas as pd
 
@@ -86,7 +87,7 @@ dt = DecisionTreeClassifier(max_depth=2
 bdt = AdaBoostClassifier(dt
                          ,algorithm="SAMME"
                          ,n_estimators=600
-                         ,learning_Rate=1
+                         ,learning_rate=1
                          )
 
 # Splitting Training Up
@@ -97,64 +98,7 @@ y_valid = validation[:,1]  # read y values
 x_valid = validation[:,2:]
 print 'did necesary prep...'                         
                         
-model = bdt.fit(x_train,y_train)
-y_pred = model.predict(x_valid)
-
-# Turn into integer arrays from object arrays
-y_valid = map(int,y_valid)
-y_pred = map(int,y_pred)
-
-#print y_pred
-
-cm = confusion_matrix(y_valid, y_pred)
-asm = accuracy_score(y_valid,y_pred)
-print (cm)
-print "Accuracy -> %f" % (asm)
-
-
-# Then the testing data...
-#
-#
-print 'now we begin the testing data!'
-tt = pd.read_csv('test.csv')
-tt = tt.drop('Name', 1)
-tt = tt.drop('Cabin', 1)
-tt = tt.drop('Embarked', 1)
-tt = tt.drop('Ticket', 1)
-
-for i in range(len(tt.index)):
-    if tt.iloc[i,2] == 'male':
-        tt.iloc[i,2] = 1
-    elif tt.iloc[i,2] == 'female':
-        tt.iloc[i,2] = 0
-    else:
-        tt.iloc[i,2] = 1 
-
-tt['FamilySize'] = tt['SibSp'] + tt['Parch'] + 1
-tt = tt.drop('SibSp', 1)
-tt = tt.drop('Parch', 1)
-
-
-# Using the previous average b/c its whats trained
-for j in range(len(tt.index)):
-    if pd.isnull(tt.iloc[j,3]):
-        tt.iloc[j,3] = round(avgnumbah)        
-
-tt['Sex'] = tt['Sex'].astype(int)
-tt['Age'] = tt['Age'].astype(int)
-
-for j in range(len(tt.index)):
-    if pd.isnull(tt.iloc[j,4]):
-        tt.iloc[j,4] = round(blankers)    
-tt['Fare'] = tt['Fare'].astype(int)
-
-#tt = tt.astype('float64')
-x_test = numpy.asarray(tt)[:,1:]
-pID = numpy.asarray(tt)[:,0]
-preds = model.predict(x_test)
-w = {'PassengerId' : map(int,pID),
-     'Survived' : preds }
-     
-wf = pd.DataFrame(w)
-
-wf.to_csv("Submittion_112214_Uno.csv",index=False)
+scores = cross_val_score(bdt, x_train, y_train,cv=10).fit(x_valid,y_valid)
+scores.mean() 
+print scores
+print scores.mean()
