@@ -50,7 +50,7 @@ for i in range(len(df.index)):
         df.iloc[i,3] = 0
     else:
         df.iloc[i,3] = 1 
-#If they didn't survive, chanes are they were male
+#If they didn't survive, chances are they were male
 
 # Create FamilySize variable and scrap what it replaces       
 df['FamilySize'] = df['SibSp'] + df['Parch'] + 1
