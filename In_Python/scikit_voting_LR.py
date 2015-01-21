@@ -16,6 +16,9 @@ from sklearn.cross_validation import cross_val_score
 import numpy as np
 import pandas as pd
 
+from progressbar import ProgressBar
+import time
+
 
 print 'starting...'
 
@@ -75,30 +78,35 @@ x_valid = validation[:,2:]
 
 
 # Build classifier
-clf = LinearRegression()
+clf = LinearRegression(fit_intercept=False)
 
 print "Now onto building our predictions"
-# The idea is to loop through the array and build a single linear regression against each single feature
-# Then take down the probabilities (R^2 scores) of it being correct as a weight
+# The idea is to loop through the array and build a single linear 
+# regression against each single feature. Then take down the 
+# probabilities (R^2 scores) of it being correct as a weight
 # This weight then figures into a simple voting procedure down below
-classes = []; probs = []; preds = []
-for j in range(x_train.shape[1]):
-	fitted = clf.fit(X=x_train[:,j],y=y_train)
-	v = fitted.predict(x_valid[:,j].tolist())
-	print v
+classes = []; probs = []; preds = []; 
+pbar = ProgressBar(maxval=num_of_features)
+num_of_features = x_train.shape[1]
+for j in range(num_of_features):
+	fitted = clf.fit(X=x_train[:,j:num_of_features],y=y_train)
+	v = fitted.predict(x_valid[:,j:num_of_features].tolist())
+	#print v
 	preds.append( v )
 	# We'll subsitute scores for probabilities here, in this case the R^2
-	probs.append( clf.score(X=x_train[:,j], y=y_train) )
+	probs.append( clf.score(X=x_train[:,j:num_of_features], y=y_train) )
+	pbar.update(j)
+pbar.finish()
 
 # Declares lists to hold final predictions
 print "Now Going through the Voting"
 holder_predictions = []
 vote_preds = []
 
-for i in len(number_of_classifiers):
-	holder_predictions[i] += probs[i] * preds[i]
+for i in range(len(preds)):
+	holder_predictions.append( probs[i] * preds[i] )
 
-for i in len(holder_predictions):
+for i in range(len(holder_predictions)):
 	if holder_predictions[i] <= 0:
 		vote_preds.append(0)
 	else:
